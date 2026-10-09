@@ -1,0 +1,32 @@
+import pandas as pd
+
+# 1. Load Dataset (using a public sample dataset URL for convenience)
+url = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv"
+df = pd.read_csv(url)
+
+print("--- 1. Initial Dataset Preview ---")
+print(df.head(), "\n")
+
+# 2. Data Cleaning (Checking for null values and duplicates)
+print("--- 2. Data Cleaning ---")
+print("Missing values before cleaning:\n", df.isnull().sum())
+df = df.dropna()  # Drop rows with missing values if any
+df = df.drop_duplicates()
+print("Data cleaned successfully!\n")
+
+# 3. Filtering
+print("--- 3. Filtering Data ---")
+# Filter rows where the total bill is greater than $30
+high_bills = df[df['total_bill'] > 30]
+print(f"Number of transactions with a total bill > $30: {len(high_bills)}\n")
+
+# 4. Grouping and Summary Statistics
+print("--- 4. Grouping & Summary Statistics ---")
+# Group by day and find the average total bill and tip
+grouped_data = df.groupby('day')[['total_bill', 'tip']].mean()
+print("Average Total Bill and Tip by Day:")
+print(grouped_data, "\n")
+
+# Overall summary statistics
+print("--- 5. General Summary Statistics ---")
+print(df.describe())
